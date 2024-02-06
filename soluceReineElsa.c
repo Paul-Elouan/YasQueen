@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define N 3
+#define N 8
 
 typedef int grille[N][N];
 
-bool possible(grille g, int numCase);
-bool backtracking(grille g, int numCase);
+bool possible(grille g, int ligne, int colonne);
+bool backtracking(grille g, int numCase, int nbReines);
 void afficherGrille(grille g);
 void initGrille(grille g);
 
@@ -18,15 +18,16 @@ int main()
     int numCase = 0;
     initGrille(g);
     afficherGrille(g);
-    backtracking(g, numCase);
+    backtracking(g, numCase, N);
     afficherGrille(g);
     return EXIT_SUCCESS;
 }
 
-bool possible(grille g, int numCase)
+/* fonction qui vérifie si une on peut placer une dame dans l'échiquier. 
+Une dame est représenter par un 1 et une case vide par un 0. On doit vérifier si 
+il est possible de placer la dame dans la case  */
+bool possible(grille g, int ligne, int colonne)
 {
-    int ligne = numCase / N;
-    int colonne = numCase % N;
     int startLigne, startColonne;
     // vérifie si le chiffre 1 est présent dans la ligne, la colonne ou les diagonales
     for (int i = 0; i < N; i++)
@@ -37,34 +38,33 @@ bool possible(grille g, int numCase)
         }
     }
     // verification des diagonales
-    int verifFin = (numCase + 1) % N;
-
-    if (ligne - colonne < 0)
+    int verifFin = (ligne + 1) / N;
+    for (int i = 0; i < verifFin; i++)
     {
-        startLigne = 0;
+        if (ligne - i < 0)
+        {
+            startLigne = 0;
+        }
+        else
+        {
+            startLigne = ligne - i;
+        }
     }
-    else
+    for (int i = 0; i < verifFin; i++)
     {
-        startLigne = ligne - colonne;
-    }
-
-    if (colonne - ligne < 0)
-    {
-        startColonne = 0;
-    }
-    else
-    {
-        startColonne = colonne - ligne;
-    }
-
-    for (int verif = 0; verif < verifFin; verif++)
-    {
-        if (g[startLigne + verif][startColonne + verif] == 1)
+        if (colonne - i < 0)
+        {
+            startColonne = 0;
+        }
+        else
+        {
+            startColonne = colonne - i;
+        }
+        if (g[startLigne + i][startColonne + i] == 1)
         {
             return false;
         }
     }
-
     return true;
 }
 
@@ -79,11 +79,11 @@ void initGrille(grille g)
     }
 }
 
-bool backtracking(grille g, int numCase)
+bool backtracking(grille g, int numCase, int nbReines)
 {
     int ligne, colonne;
 
-    if (numCase == N * N)
+    if (numCase == N * N || nbReines == 0)
     {
         return true;
     }
@@ -94,17 +94,18 @@ bool backtracking(grille g, int numCase)
         
         if (g[ligne][colonne]!=0)
         {
-            return backtracking(g, numCase + 1);
+            return backtracking(g, numCase + 1, nbReines);
         }
         else
         {
             for (int i = 1; i <= N; i++)
             {
                 g[ligne][colonne] = 1;
-                if (possible(g, numCase))
+                if (possible(g, ligne, colonne))
                 {
-                    if (backtracking(g, numCase + 1))
+                    if (backtracking(g, numCase + 1, nbReines - 1))
                     {
+                        nbReines--;
                         return true;
                     }
                 }
