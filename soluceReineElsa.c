@@ -9,7 +9,7 @@ typedef int grille[N][N];
 bool possible(grille g, int ligne, int colonne);
 bool backtracking(grille g, int numCase, int nbReines);
 void afficherGrille(grille g);
-void initGrille(grille g);
+void initGrille(grille grid);
 
 
 int main()
@@ -116,14 +116,35 @@ bool backtracking(grille g, int numCase, int nbReines)
     }
 }
 
-void afficherGrille(grille g)
-{
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < N; j++)
-        {
-            printf("%d ", g[i][j]);
+void affichageGrille(grille grid) {
+    printf("+---------+---------+---------+---------+---------+---------+---------+---------+\n");
+    for (int i = 0; i < N; i++) {
+        for (int k = 0; k < 3; k++) {
+            for (int j = 0; j < N; j++) {
+                if (grid[i][j] == 1) {
+                    switch (k)
+                    {
+                    case 0:
+                        printf("|   _O_   ");
+                        break;
+                    case 1:
+                        printf("|   \\ /   ");
+                        break;
+                    case 2:
+                        printf("|   /_\\   ");
+                        break;
+
+                    default:
+                        break;
+                    }
+                }
+
+                else {
+                    printf("|         ");
+                }
+            }
+            printf("|\n");
         }
-        printf("\n");
+        printf("+---------+---------+---------+---------+---------+---------+---------+---------+\n");
     }
 }
