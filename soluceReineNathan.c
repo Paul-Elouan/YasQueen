@@ -66,8 +66,27 @@ bool possible(grille g, int numCase)
         startColonne = colonne - ligne;
     }
 
+    if (ligne + colonne >= N)
+    {
+        startLigneInv = N - 1;
+    }
+    else
+    {
+        startLigneInv = ligne + colonne;
+    }
+
+    if (colonne - ((N - 1) - ligne) < 0)
+    {
+        startColonneInv = 0;
+    }
+    else
+    {
+        startColonneInv = colonne - ((N - 1) - ligne);
+    }
+
     int verif = 0;
 
+    // Diagonale haut gauche / bas droite
     while (startLigne + verif < N && startColonne + verif < N)
     {
         if (g[startLigne + verif][startColonne + verif] == 1)
@@ -79,9 +98,10 @@ bool possible(grille g, int numCase)
 
     verif = 0;
 
-    while (startColonne + verif < N && (N - 1) - verif >= 0)
+    // Diagonale bas gauche / haut droite
+    while (startLigneInv - verif >= 0 && startColonneInv + verif < N)
     {
-        if (g[startColonne + verif][(N - 1) - verif] == 1)
+        if (g[startLigneInv - verif][startColonneInv + verif] == 1)
         {
             return false;
         }
