@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <time.h>
 
 #define N 8
 
@@ -8,7 +9,7 @@ typedef int grille[N][N];
 
 bool possible(grille g, int numCase);
 bool backtracking(grille g, int numCase, int nbDames);
-void afficherGrille(grille g);
+void affichage(grille grid);
 void initGrille(grille g);
 
 int main()
@@ -16,9 +17,15 @@ int main()
     grille g;
     initGrille(g);
 
+    clock_t begin = clock();
+
     backtracking(g, 0, 0);
 
-    afficherGrille(g);
+    clock_t end = clock();
+    double tmpsCPU = (end - begin) * 1.0 / CLOCKS_PER_SEC;
+
+    affichage(g);
+    printf("Temps CPU : %.3f s\n", tmpsCPU);
 
     return EXIT_SUCCESS;
 }
@@ -87,7 +94,7 @@ bool possible(grille g, int numCase)
     int verif = 0;
 
     // Diagonale haut gauche / bas droite
-    while (startLigne + verif < N && startColonne + verif < N)
+    while ((startLigne + verif < N && startColonne + verif < N))
     {
         if (g[startLigne + verif][startColonne + verif] == 1)
         {
@@ -139,13 +146,51 @@ bool backtracking(grille g, int numCase, int nbDames)
     }
 }
 
-void afficherGrille(grille g)
+void affichage(grille grid)
 {
+    int ligne;
+    printf("+");
+    for (ligne = 0; ligne < N; ligne++)
+    {
+        printf("---------+");
+    }
+    printf("\n");
     for (int i = 0; i < N; i++)
     {
-        for (int j = 0; j < N; j++)
+        for (int k = 0; k < 3; k++)
         {
-            printf("%d ", g[i][j]);
+            for (int j = 0; j < N; j++)
+            {
+                if (grid[i][j] == 1)
+                {
+                    switch (k)
+                    {
+                    case 0:
+                        printf("|   _O_   ");
+                        break;
+                    case 1:
+                        printf("|   \\ /   ");
+                        break;
+                    case 2:
+                        printf("|   /_\\   ");
+                        break;
+
+                    default:
+                        break;
+                    }
+                }
+
+                else
+                {
+                    printf("|         ");
+                }
+            }
+            printf("|\n");
+        }
+        printf("+");
+        for (ligne = 0; ligne < N; ligne++)
+        {
+            printf("---------+");
         }
         printf("\n");
     }
