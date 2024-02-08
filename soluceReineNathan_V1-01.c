@@ -1,9 +1,14 @@
+/**
+ * @brief Optimisation du backtracking (for pour la ligne et plus pour toute la grille)
+ * @version 1.01
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <time.h>
 
-#define N 8
+#define N 4
 
 typedef int grille[N][N];
 
@@ -125,14 +130,14 @@ bool backtracking(grille g, int numCase, int nbDames)
     }
     else
     {
-        for (int i = 0; i < (N * N) - numCase - 1; i++)
+        for (int i = 0; i < N; i++)
         {
-            if (possible(g, numCase + i))
+            if (possible(g, (numCase + i)))
             {
                 int ligne = (numCase + i) / N;
                 int colonne = (numCase + i) % N;
                 g[ligne][colonne] = 1;
-                if (backtracking(g, numCase + i + 1, nbDames + 1))
+                if (backtracking(g, numCase + N, nbDames + 1))
                 {
                     return true;
                 }
