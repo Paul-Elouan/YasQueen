@@ -27,8 +27,13 @@ void fillRandomGrid(grille grid) {
 }
 
 void affichage(grille grid) {
-    printf("+---------+---------+---------+---------+---------+---------+---------+---------+\n");
-    for (int i = 0; i < GRID_SIZE; i++) {
+    for (int k = 0; k < N; k++)
+    {
+        printf("+---------");
+    }
+    printf("+\n");
+    for (int i = 0; i < GRID_SIZE; i++)
+    {
         for (int k = 0; k < N; k++) {
             for (int j = 0; j < GRID_SIZE; j++) {
                 if (grid[i][j] == 1) {
@@ -55,6 +60,19 @@ void affichage(grille grid) {
             }
             printf("|\n");
         }
-        printf("+---------+---------+---------+---------+---------+---------+---------+---------+\n");
+        for (int k = 0; k < N; k++) {
+            printf("+---------");
+        }
+        printf("+\n");
+    }
+}
+
+void affichageMatrice(grille grid) {
+    for (int i = 0; i < GRID_SIZE; i++)
+    {
+        for (int j = 0; j < GRID_SIZE; j++) {
+            printf("%d ", grid[i][j]);
+        }
+        printf("\n");
     }
 }
