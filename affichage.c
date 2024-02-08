@@ -8,6 +8,7 @@ typedef int grille[GRID_SIZE][GRID_SIZE];
 
 void fillRandomGrid(grille);
 void affichage(grille);
+void affichageMatrice(grille);
 
 int main() {
     grille grid;
