@@ -8,7 +8,7 @@ typedef int grille[GRID_SIZE][GRID_SIZE];
 
 void fillRandomGrid(grille);
 void affichage(grille);
-void affichageMatrice(grille);
+void AffichageChiffre(grille);
 
 int main() {
     grille grid;
@@ -68,12 +68,21 @@ void affichage(grille grid) {
     }
 }
 
-void affichageMatrice(grille grid) {
+void affichageChiffre(grille grid) {
+    for (int k = 0; k < N; k++)
+    {
+        printf("+---");
+    }
     for (int i = 0; i < GRID_SIZE; i++)
     {
         for (int j = 0; j < GRID_SIZE; j++) {
-            printf("%d ", grid[i][j]);
+            printf("| %d ", grid[i][j]);
         }
-        printf("\n");
+        printf("|\n");
     }
+    for (int k = 0; k < N; k++)
+    {
+        printf("+---");
+    }
+    printf("+\n");
 }
