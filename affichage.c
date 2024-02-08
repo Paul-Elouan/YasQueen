@@ -73,38 +73,22 @@ void affichageChiffre(grille grid) {
     {
         printf("+---");
     }
+    printf("+\n");
     for (int i = 0; i < GRID_SIZE; i++)
     {
-        for (int k = 0; k < N; k++)
+        for (int j = 0; j < GRID_SIZE; j++)
         {
-            for (int j = 0; j < GRID_SIZE; j++)
+            if (grid[i][j] == 1)
             {
-                if (grid[i][j] == 1)
-                {
-                    switch (k)
-                    {
-                    case 0:
-                        printf("|   ");
-                        break;
-                    case 1:
-                        printf("| Q ");
-                        break;
-                    case 2:
-                        printf("|  ");
-                        break;
-
-                    default:
-                        break;
-                    }
-                }
-
-                else
-                {
-                    printf("| ");
-                }
+                printf("| Q ");
             }
-            printf("|\n");
+
+            else
+            {
+                printf("|   ");
+            }
         }
+        printf("|\n");
         for (int k = 0; k < N; k++)
         {
             printf("+---");
