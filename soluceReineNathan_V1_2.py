@@ -78,37 +78,40 @@ def affichage(grid):
         print("+")
 
 # Main
-g = [[0] * N for i in range(N)]
-tab = TabGrille()
-tab.nbSoluce = 0
+def main():
+    g = [[0] * N for i in range(N)]
+    tab = TabGrille()
+    tab.nbSoluce = 0
 
-print("Calcul des solutions...")
+    print("Calcul des solutions...")
 
-begin = time.time()
+    begin = time.time()
 
-backtracking(g, tab, 0, 0)
+    backtracking(g, tab, 0, 0)
 
-end = time.time()
-tmps_cpu = end - begin
+    end = time.time()
+    tmps_cpu = end - begin
 
-print("{} solutions trouvees\nTemps CPU : {:.3f}".format(tab.nbSoluce,tmps_cpu))
+    print("{} solutions trouvees\nTemps CPU : {:.3f}".format(tab.nbSoluce,tmps_cpu))
 
-rep=str()
-while (rep!="3"):
-    print("\n1. Afficher toutes les solutions\n2. Afficher une solution\n3. Quitter")
-    rep=input("Entrez votre choix : ")
-    if rep=="1":
-        for i in range(tab.nbSoluce):
-            print("Solution n°", i + 1)
-            affichage(tab.solutions[i])
-    elif rep=="2":
-        num=int(input("Entrez le numéro de la solution à afficher : "))
-        if num > tab.nbSoluce or num < 1:
-            print("Numéro de solution invalide !")
+    rep=str()
+    while (rep!="3"):
+        print("\n1. Afficher toutes les solutions\n2. Afficher une solution\n3. Quitter")
+        rep=input("Entrez votre choix : ")
+        if rep=="1":
+            for i in range(tab.nbSoluce):
+                print("Solution n°", i + 1)
+                affichage(tab.solutions[i])
+        elif rep=="2":
+            num=int(input("Entrez le numéro de la solution à afficher : "))
+            if num > tab.nbSoluce or num < 1:
+                print("Numéro de solution invalide !")
+            else:
+                print("Solution n°", num)
+                affichage(tab.solutions[num-1])
+        elif rep=="3":
+            print("Au revoir !")
         else:
-            print("Solution n°", num)
-            affichage(tab.solutions[num-1])
-    elif rep=="3":
-        print("Au revoir !")
-    else:
-        print("Choix invalide !")
+            print("Choix invalide !")
+
+main()
