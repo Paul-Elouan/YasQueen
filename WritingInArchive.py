@@ -1,10 +1,12 @@
 '''
-Modifications : Ajout d'une fonction pour ecrire dans un fichier
-Version 1.3.1
+Modifications : Ajout d'une fonction pour ecrire dans de multiple fichiers
+Version 1.3.2
 '''
 
 import time
 import copy
+import os
+import shutil
 
 N = 8
 
@@ -100,17 +102,20 @@ def affichageMinimaliste(grid):
             print("+---", end="")
         print("+")
 
-def write_file(tab):
-    with open('solutions.txt', 'w') as f:
-        for n in range(tab.nbSoluce):
-            f.write("Solution " + str(n + 1) + ":\n")
+def write_in_archive(tab):
+    if not os.path.exists("solutions"):
+        os.mkdir("solutions")
+    dir = os.getcwd() + "/solutions"
+    for nbOfFiles in range(tab.nbSoluce):
+        with open(dir + "/solution_" + str(nbOfFiles + 1) + ".txt", 'w') as f:
+            f.write("Solution " + str(nbOfFiles + 1) + ":\n")
             for k in range(N):
                 f.write("+---------")
             f.write("+\n")
             for i in range(N):
                 for k in range(3):
                     for j in range(N):
-                        if tab.solutions[n][i][j] == 1:
+                        if tab.solutions[nbOfFiles][i][j] == 1:
                             if k == 0:
                                 f.write("|   _O_   ")
                             elif k == 1:
@@ -126,6 +131,12 @@ def write_file(tab):
                     f.write("+---------")
                 f.write("+\n")
             f.write("\n")
+    if not os.path.exists("solutions_zip"):
+        shutil.make_archive("solutions_zip", 'zip', dir)
+    else:
+        shutil.rmtree("solutions_zip")
+        shutil.make_archive("solutions_zip", 'zip', dir)
+    shutil.rmtree(dir)
 
 def main():
     g = [[0] * N for i in range(N)]
@@ -145,7 +156,7 @@ def main():
 
     rep=str()
     while (rep!="4"):
-        print("\n1. Afficher toutes les solutions\n2. Afficher une solution\n3. Ecrire les solutions dans un fichier\n4. Quitter")
+        print("\n1. Afficher toutes les solutions\n2. Afficher une solution\n3. Exporter les solutions\n4. Quitter")
         rep=input("Entrez votre choix : ")
         
         if rep=="1":
@@ -162,8 +173,8 @@ def main():
                 affichage(tab.solutions[num-1])
         
         elif rep == "3":
-            print("Ecriture des solutions dans le fichier \"solutions.txt\"...")
-            write_file(tab)
+            print("Ecriture des solutions dans l'archive \"solutions_zip\"...")
+            write_in_archive(tab)
 
         elif rep=="4":
             print("Au revoir !")
