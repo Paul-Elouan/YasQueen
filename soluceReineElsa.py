@@ -29,9 +29,9 @@ class Grille:
     de placer ou d'enlever une reine.
 
     >>> grille = Grille(4)
-    >>> grille.coup_valide(grille.grille[0][0])
+    >>> grille.possible(grille.grille[0][0])
     True
-    >>> grille.coup_valide(grille.grille[1][2])
+    >>> grille.possible(grille.grille[1][2])
     False
     >>> grille.placer_reine(grille.grille[1][1])
     >>> grille.grille[1][1].occupee
@@ -45,29 +45,42 @@ class Grille:
         self.n = n
         self.grille = [[Cellule(i, j) for j in range(n)] for i in range(n)]
 
-    def coup_valide(self, cellule):
+    def possible(self, cellule):
         """
-        Verifie si placer une reine dans la cellule est un coup valide.
+        Vérifie si placer une reine dans la cellule est un coup valide.
 
-        Un coup est valide si aucune reine n'est dejà placee sur la même ligne,
+        Un coup est valide si aucune reine n'est déjà placée sur la même ligne,
         colonne ou diagonale que la cellule.
 
-        :param cellule: La cellule à verifier.
+        :param cellule: La cellule à vérifier.
         :return: True si le coup est valide, False sinon.
         """
+        ligne = cellule.i
+        colonne = cellule.j
+        start_ligne = max(ligne - colonne, 0)
+        start_colonne = max(colonne - ligne, 0)
+        start_ligne_inv = min(ligne + colonne, self.n - 1)
+        start_colonne_inv = max(colonne - (self.n - 1 - ligne), 0)
+
         for i in range(self.n):
-            if self.grille[cellule.i][i].occupee or self.grille[i][cellule.j].occupee:
+            if self.grille[ligne][i].occupee or self.grille[i][colonne].occupee:
                 return False
         
-        for i, j in zip(range(cellule.i, -1, -1), range(cellule.j, -1, -1)):
-            if self.grille[i][j].occupee:
+        verif = 0
+        while start_ligne + verif < self.n and start_colonne + verif < self.n:
+            if self.grille[start_ligne + verif][start_colonne + verif].occupee:
                 return False
-        
-        for i, j in zip(range(cellule.i, self.n, 1), range(cellule.j, -1, -1)):
-            if self.grille[i][j].occupee:
+            verif += 1
+    
+        verif = 0
+        while start_ligne_inv - verif >= 0 and start_colonne_inv + verif < self.n:
+            if self.grille[start_ligne_inv - verif][start_colonne_inv + verif].occupee:
                 return False
-        
+            verif += 1
+    
         return True
+
+
 
     def placer_reine(self, cellule):
         """
@@ -128,7 +141,7 @@ class Solveur:
             return True
         else:
             for j in range(self.n):
-                if grille.coup_valide(grille.grille[ligne][j]):
+                if grille.possible(grille.grille[ligne][j]):
                     grille.placer_reine(grille.grille[ligne][j])
                     if self.backtracking(grille, ligne + 1):
                         grille.enlever_reine(grille.grille[ligne][j])
