@@ -204,7 +204,7 @@ def main():
     fin = time.time()
     temps_cpu = fin - debut
 
-    print(len(solveur.solutions),"solutions trouvees\nTemps CPU : ",temps_cpu," secondes")
+    print("{} solutions trouvees\nTemps CPU : {:.3f}".format(len(solveur.solutions),temps_cpu))
 
     choix = ""
     while choix != "3":
