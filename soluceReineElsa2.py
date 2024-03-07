@@ -1,3 +1,4 @@
+import time
 class Graphe:
     def __init__(self, num_reines):
         self.num_reines = num_reines
@@ -76,7 +77,16 @@ def afficher_solution(solution, num_reines):
 
 def main():
     num_reines = 8
+    print("Calcul des solutions...")
+
+    begin = time.time()
+    
     graphe = construire_graphe_reines(num_reines)
+    
+    end = time.time()
+    tmps_cpu = end - begin
+    print("Temps CPU:", tmps_cpu)
+    
     solutions = graphe.resoudre_n_reines()
     print("Nombre de solutions trouvées:", len(solutions))
     afficher_solution(solutions, num_reines)
