@@ -10,6 +10,12 @@ class Graphe:
         else:
             self.graphe[u] = [v]
 
+    def __str__(self):
+        """
+        affiche le graphe
+        """
+        for 
+    
     def resoudre_n_reines(self):
         solutions = []
         visites = set()
@@ -82,14 +88,13 @@ def main():
     begin = time.time()
     
     graphe = construire_graphe_reines(num_reines)
-    
     end = time.time()
     tmps_cpu = end - begin
     print("Temps CPU:", tmps_cpu)
     
-    solutions = graphe.resoudre_n_reines()
-    print("Nombre de solutions trouvées:", len(solutions))
-    afficher_solution(solutions, num_reines)
+    #solutions = graphe.resoudre_n_reines()
+    #print("Nombre de solutions trouvées:", len(solutions))
+    #afficher_solution(solutions, num_reines)
 
 
 if __name__ == "__main__":
