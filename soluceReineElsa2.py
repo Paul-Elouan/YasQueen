@@ -2,7 +2,9 @@ import time
 class Graphe:
     def __init__(self, num_reines):
         self.num_reines = num_reines
-        self.graphe = {}
+        graphe_dict = dict()
+        self.graphe = graphe_dict
+
 
     def ajouter_arete(self, u, v):
         if u in self.graphe:
@@ -11,10 +13,20 @@ class Graphe:
             self.graphe[u] = [v]
 
     def __str__(self):
+       res = "sommets: "
+       for k in self.graphe.keys():
+           res += str(k) + " "
+       res += "\naretes: "
+       for arete in self.__list_aretes():
+           res += str(arete) + " "
+       return res
+    
+    def __list_aretes(self):
+        """ Methode privée pour récupérer les aretes. 
+	    Une arete est un ensemble (set)
+            avec un (boucle) ou deux sommets.
         """
-        affiche le graphe
-        """
-        for 
+        return [arete for arete in self.graphe.values() for arete in arete]
     
     def resoudre_n_reines(self):
         solutions = []
@@ -51,19 +63,9 @@ def est_securitaire(plateau, ligne, colonne):
     return True
 
 def construire_graphe(graphe, plateau, ligne, num_reines):
-        if ligne == num_reines:
-            return
-
-        for colonne in range(num_reines):
-            if est_securitaire(plateau, ligne, colonne):
-                plateau[ligne] = colonne
-                if ligne > 0:
-                    ligne_precedente = ligne - 1
-                    colonne_precedente = plateau[ligne_precedente]
-                    noeud_precedent = ligne_precedente * num_reines + colonne_precedente
-                    noeud_actuel = ligne * num_reines + colonne
-                    graphe.ajouter_arete(noeud_precedent, noeud_actuel)
-                construire_graphe(graphe, plateau, ligne + 1, num_reines)
+        """construit le graphe avec le nombre reines en paramètres"""
+        for i in range(num_reines):
+            
 
 def construire_graphe_reines(num_reines):
     graphe = Graphe(num_reines)
@@ -88,6 +90,7 @@ def main():
     begin = time.time()
     
     graphe = construire_graphe_reines(num_reines)
+    print(graphe.__str__())
     end = time.time()
     tmps_cpu = end - begin
     print("Temps CPU:", tmps_cpu)
