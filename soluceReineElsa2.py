@@ -84,10 +84,8 @@ def resoudre_probleme_n_reines(n):
 
 
 def affiche_solutions_probleme_reines(graphe):
-    nbsolutions = 0
-    for i in range(len(graphe.all_sommets())):
-        nbsolutions += len(graphe.trouve_tous_chemins(graphe.all_sommets()[0], graphe.all_sommets()[i]))
-
+    nbsolutions = len(graphe.trouve_tous_chemins(0, 7))
+    
     print(nbsolutions, "solutions trouvée(s) !\n")
 
     choix = 0
@@ -210,12 +208,7 @@ def resoudre_probleme_n_reines(n):
     return graphe
 def affiche_solutions_probleme_reines(graphe):
     sommets = list(graphe.all_sommets())
-    nbsolutions = 0
-    for i in range(len(sommets)):
-        # Trouver tous les chemins entre le premier sommet et chaque sommet
-        chemins = graphe.trouve_tous_chemins(sommets[0], sommets[i])
-        # Ajouter le nombre de chemins trouvés à nbsolutions
-        nbsolutions += len(chemins)
+    nbsolutions = len()
 
     print(nbsolutions, "solutions trouvée(s) !\n")
 
