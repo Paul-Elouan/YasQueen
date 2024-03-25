@@ -92,9 +92,7 @@ def affiche_solutions_probleme_reines(graphe, sommet_dep, sommet_arr):
     choix = 0
     while choix != 3:
         choix = int(input("Voulez-vous afficher toutes les solutions ? (1) \nVoulez-vous afficher une solution particulière ? (2) \nVoulez-vous quitter ? (3) \n"))
-        chemins = {}
-        for i in range(len(sommets)):
-            chemins += graphe.trouve_tous_chemins(sommet_dep, sommets[i])
+        chemins = graphe.trouve_tous_chemins(sommet_dep, sommet_arr)
         if choix == 1:
             for j in range(len(chemins)):
                 print(chemins[j])
