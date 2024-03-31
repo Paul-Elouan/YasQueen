@@ -1,3 +1,5 @@
+import time
+
 class Graphe(object):
 
     def __init__(self, graphe_dict=None):
@@ -53,16 +55,18 @@ class Graphe(object):
                     return next_chain
         return None
 
-    def trouve_tous_chemins(self, sommet_dep, sommet_arr):
-        stack = [(sommet_dep, [sommet_dep])]
-        chemins = []
-        while stack:
-            (sommet, chemin) = stack.pop()
-            for voisin in self.aretes(sommet):
-                if voisin == sommet_arr:
-                    chemins.append(chemin + [voisin])
-                else:
-                    stack.append((voisin, chemin + [voisin]))
+    def trouve_tous_chemins(self, sommet_dep, sommet_arr, chem=[]):
+        chem.append(sommet_dep)
+        if sommet_dep == sommet_arr:
+            return [chem]
+        
+        chemins =[]
+
+        for voisin in self.aretes(sommet_dep):
+            if voisin not in chem:
+                nouveaux_chemins = self.trouve_tous_chemins(voisin, sommet_arr, chem[:])
+                for nouveau_chemin in nouveaux_chemins:
+                    chemins.append(nouveau_chemin)
         return chemins
 
 
@@ -85,22 +89,21 @@ def resoudre_probleme_n_reines(n):
 
 def affiche_solutions_probleme_reines(graphe, sommet_dep, sommet_arr):
     sommets = list(graphe.all_sommets())
-    nbsolutions = len(graphe.trouve_tous_chemins(sommet_dep, sommet_arr))
+    chemins = graphe.trouve_tous_chemins(sommet_dep, sommet_arr)
+    nbsolutions = len(chemins)
 
     print(nbsolutions, "solutions trouvée(s) !\n")
 
     choix = 0
     while choix != 3:
         choix = int(input("Voulez-vous afficher toutes les solutions ? (1) \nVoulez-vous afficher une solution particulière ? (2) \nVoulez-vous quitter ? (3) \n"))
-        chemins = graphe.trouve_tous_chemins(sommet_dep, sommet_arr)
+        
         if choix == 1:
-            for j in range(len(chemins)):
-                print(chemins[j])
-                print("\n")
+            print(graphe.__str__())
         elif choix == 2:
             print("Veuillez entrer le nombre de la solution que vous voulez afficher :")
             choix_solution = int(input())
-            for j in range(len(chemins)):
+            for j in range(nbsolutions):
                 if j == choix_solution-1:
                     print(chemins[j])
                     print("\n")
@@ -117,8 +120,12 @@ def affiche_solutions_probleme_reines(graphe, sommet_dep, sommet_arr):
 
 if __name__ == "__main__":
     n = int(input("Veuillez entrer le nombre de reines :"))
+    start = time.time()
     graphe = resoudre_probleme_n_reines(n)
     affiche_solutions_probleme_reines(graphe, 0, n-1)
+    end = time.time()
+    tot = end - start
+    print(tot)
 
 
 
